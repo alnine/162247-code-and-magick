@@ -185,27 +185,22 @@
   'use strict';
 
   var fireballSize = 22;
-  var getFireballSpeed = function (left) {
-    if(left) {
-      return 5;
-    } else {
-      return 2;
-    }
+  function getFireballSpeed (left) {
+    return left ? 5 : 2;
   };
 
-  wizardSpeed = 3;
-  wizardWidth = 70;
-  getWizardHeight = function (width) {
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
+  function getWizardHeight (width) {
     return 1.377 * width;
   };
 
   function getWizardX (width) {
-    var centerWizardBody = wizardWidth / 2;
-    return width / 2 - centerWizardBody;
+    return (width - wizardWidth) / 2;
   }
 
   function getWizardY (height) {
-    return height - (height * 2 / 3);
+    return height / 3 - getWizardHeight(wizardWidth);
   }
 </script>
 
