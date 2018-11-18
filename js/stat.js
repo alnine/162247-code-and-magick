@@ -2,6 +2,9 @@
 
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
+var CLOUD_X = 100;
+var CLOUD_Y = 10;
+var GAP = 10;
 var cloudMessage = 'Ура вы победили!\nСписок результатов:';
 
 //Функция отрисовки облака
@@ -12,10 +15,10 @@ function renderCloud (ctx, x, y, color) {
 
 window.renderStatistics = function (ctx) {
   //Отрисовка тени под облаком
-  renderCloud(ctx, 110, 20, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
 
   //Отрисовка облака
-  renderCloud(ctx, 100, 10, '#fff');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 
   //Отрисовка текста сообщения
   ctx.fillStyle = '#000';
