@@ -13,8 +13,7 @@ var CLOUD_MESSAGE_Y = CLOUD_Y + GAP;
 var CLOUD_MESSAGE_HEIGHT = CLOUD_MESSAGE.length * FONT_GAP;
 var STAT_X = CLOUD_X + GAP * 4;
 var STAT_Y = CLOUD_Y + GAP + CLOUD_MESSAGE_HEIGHT;
-var STAT_HEIGHT = CLOUD_HEIGHT - GAP - CLOUD_MESSAGE_HEIGHT - GAP;
-console.log(STAT_HEIGHT);
+var STAT_HEIGHT = CLOUD_HEIGHT - GAP - CLOUD_MESSAGE_HEIGHT - GAP * 2;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var BAR_MAX_HEIGHT = 150;
@@ -23,6 +22,24 @@ var BAR_MAX_HEIGHT = 150;
 function renderCloud (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
+
+//Функция поиска максимального элемента в массиве
+function getMaxElement (arr) {
+  var maxElement = arr[0];
+
+  //Для массива с одним элементом
+  if (arr.length === 1) {
+    return Math.round(maxElement);
+  }
+
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i] > maxElement) {
+      maxElement = arr[i];
+    }
+  }
+
+  return Math.round(maxElement);
 };
 
 window.renderStatistics = function (ctx, names, times) {
@@ -40,6 +57,8 @@ window.renderStatistics = function (ctx, names, times) {
   }
 
   //Отрисовка гистограммы
+  var maxTime = getMaxElement(times);
+
   for (var i = 0; i < names.length; i++) {
     //Цвет столбца по-умолчанию
     ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
@@ -49,9 +68,15 @@ window.renderStatistics = function (ctx, names, times) {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     }
 
-    ctx.fillRect(STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + FONT_GAP + GAP, BAR_WIDTH, 150);
+    //Высота столбца
+    var barHeigth = (BAR_MAX_HEIGHT * times[i]) / maxTime;
+
+    //Вертикальная координата уровня соответствующего игрока
+    var pointY = STAT_HEIGHT - GAP - barHeigth - FONT_GAP;
+
+    ctx.fillRect(STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + pointY + GAP, BAR_WIDTH, barHeigth);
     ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(times[i]), STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + FONT_GAP);
-    ctx.fillText(names[i], STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + FONT_GAP + GAP + 150 + FONT_GAP);
+    ctx.fillText(Math.round(times[i]), STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + pointY);
+    ctx.fillText(names[i], STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + pointY + GAP + barHeigth + FONT_GAP);
   }
 };
