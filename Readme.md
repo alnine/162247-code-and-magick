@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Aleksandr Kushniruk](https://up.htmlacademy.ru/javascript/16/user/162247).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Сушко](https://htmlacademy.ru/profile/sashasushko).
 
 ---
 
