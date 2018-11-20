@@ -18,17 +18,14 @@ var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var BAR_MAX_HEIGHT = 150;
 
-// Функция отрисовки облака
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 }
 
-// Функция поиска максимального элемента в массиве
 function getMaxElement(arr) {
   var maxElement = arr[0];
 
-  // Для массива с одним элементом
   if (arr.length === 1) {
     return Math.round(maxElement);
   }
@@ -43,35 +40,25 @@ function getMaxElement(arr) {
 }
 
 window.renderStatistics = function (ctx, names, times) {
-  // Отрисовка тени под облаком
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-
-  // Отрисовка облака
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 
-  // Отрисовка текста сообщения
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
   for (var m = 0; m < CLOUD_MESSAGE.length; m++) {
     ctx.fillText(CLOUD_MESSAGE[m], CLOUD_MESSAGE_X, CLOUD_MESSAGE_Y + FONT_GAP + (FONT_GAP * m));
   }
 
-  // Отрисовка гистограммы
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < names.length; i++) {
-    // Цвет столбца по-умолчанию
     ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
 
-    // Цвет столбца игрока
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     }
 
-    // Высота столбца
     var barHeigth = (BAR_MAX_HEIGHT * times[i]) / maxTime;
-
-    // Вертикальная координата уровня соответствующего игрока
     var pointY = STAT_HEIGHT - GAP - barHeigth - FONT_GAP;
 
     ctx.fillRect(STAT_X + (BAR_WIDTH + BAR_GAP) * i, STAT_Y + pointY + GAP, BAR_WIDTH, barHeigth);
