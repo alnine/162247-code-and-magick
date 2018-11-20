@@ -6,14 +6,12 @@ var CLOUD_X = 100;
 var CLOUD_Y = 10;
 var GAP = 10;
 var FONT_GAP = 20;
-var MESSAGE = 'Ура вы победили!\nСписок результатов:';
-var CLOUD_MESSAGE = MESSAGE ? MESSAGE.split('\n') : MESSAGE;
+var CLOUD_MESSAGE = 'Ура вы победили!\nСписок результатов:';
 var CLOUD_MESSAGE_X = CLOUD_X + GAP * 2;
 var CLOUD_MESSAGE_Y = CLOUD_Y + GAP;
-var CLOUD_MESSAGE_HEIGHT = CLOUD_MESSAGE.length * FONT_GAP;
 var STAT_X = CLOUD_X + GAP * 4;
-var STAT_Y = CLOUD_Y + GAP + CLOUD_MESSAGE_HEIGHT;
-var STAT_HEIGHT = CLOUD_HEIGHT - GAP - CLOUD_MESSAGE_HEIGHT - GAP * 2;
+var STAT_Y = CLOUD_Y + GAP + FONT_GAP * 2;
+var STAT_HEIGHT = CLOUD_HEIGHT - GAP - FONT_GAP * 2 - GAP * 2;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
 var BAR_MAX_HEIGHT = 150;
@@ -25,10 +23,6 @@ function renderCloud(ctx, x, y, color) {
 
 function getMaxElement(arr) {
   var maxElement = arr[0];
-
-  if (arr.length === 1) {
-    return Math.round(maxElement);
-  }
 
   for (var i = 1; i < arr.length; i++) {
     if (arr[i] > maxElement) {
@@ -45,8 +39,9 @@ window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
-  for (var m = 0; m < CLOUD_MESSAGE.length; m++) {
-    ctx.fillText(CLOUD_MESSAGE[m], CLOUD_MESSAGE_X, CLOUD_MESSAGE_Y + FONT_GAP + (FONT_GAP * m));
+  var cloudMessages = CLOUD_MESSAGE.split('\n');
+  for (var m = 0; m < cloudMessages.length; m++) {
+    ctx.fillText(cloudMessages[m], CLOUD_MESSAGE_X, CLOUD_MESSAGE_Y + FONT_GAP + (FONT_GAP * m));
   }
 
   var maxTime = getMaxElement(times);
