@@ -33,6 +33,10 @@ function getMaxElement(arr) {
   return Math.round(maxElement);
 }
 
+function getRandomInt() {
+  return Math.round(Math.random() * 100);
+}
+
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
@@ -47,7 +51,8 @@ window.renderStatistics = function (ctx, names, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < names.length; i++) {
-    ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
+    var saturation = getRandomInt();
+    ctx.fillStyle = 'hsla(240, ' + saturation + '%, 50%, 1)';
 
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
