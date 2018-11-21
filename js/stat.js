@@ -33,8 +33,8 @@ function getMaxElement(arr) {
   return Math.round(maxElement);
 }
 
-function getRandomInt() {
-  return Math.round(Math.random() * 100);
+function getRandomInt(min, max) {
+  return Math.floor(min + Math.random() * (max + 1 - min));
 }
 
 function renderCloudMessage(ctx, text, textColor, fontStyle) {
@@ -50,7 +50,7 @@ function renderBarChart(ctx, names, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < names.length; i++) {
-    var saturation = getRandomInt();
+    var saturation = getRandomInt(0, 100);
     var barHeigth = (BAR_MAX_HEIGHT * times[i]) / maxTime;
     var pointY = STAT_HEIGHT - GAP - barHeigth - FONT_GAP;
 
