@@ -19,5 +19,25 @@ function createWizardObject(name, surname, coatColor, eyesColor) {
   return wizardObject;
 }
 
+function getWizardsList(number) {
+  var wizards = [];
+  for (var i = 0; i < number; i++) {
+    wizards
+      .push(
+          createWizardObject(
+              getRandomElementOfArray(WIZARD_NAMES),
+              getRandomElementOfArray(WIZARD_SURNAMES),
+              getRandomElementOfArray(COAT_COLOR),
+              getRandomElementOfArray(EYES_COLOR)
+          )
+      );
+  }
+  return wizards;
+}
+
 var userSetup = document.querySelector('.setup');
 userSetup.classList.remove('hidden');
+
+// Тестирование
+var wizArr = getWizardsList(4);
+console.log(wizArr);
