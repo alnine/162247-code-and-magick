@@ -38,5 +38,27 @@ function getWizards(count) {
   return wizards;
 }
 
+function createSimilarWizard(template, data) {
+  var wizardItem = template.cloneNode(true);
+  wizardItem.querySelector('.setup-similar-label').textContent = data.name;
+  wizardItem.querySelector('.wizard-coat').style.fill = data.coatColor;
+  wizardItem.querySelector('.wizard-eyes').style.fill = data.eyesColor;
+  return wizardItem;
+}
+
 var userSetup = document.querySelector('.setup');
 userSetup.classList.remove('hidden');
+
+var wizards = getWizards(4);
+var setupSimilarBlock = document.querySelector('.setup-similar');
+var setupSimilarList = document.querySelector('.setup-similar-list');
+var wizardTemplate = document.querySelector('#similar-wizard-template')
+                      .content
+                      .querySelector('.setup-similar-item');
+
+
+var similarWizard = createSimilarWizard(wizardTemplate, wizards[0]);
+
+setupSimilarList.appendChild(similarWizard);
+
+setupSimilarBlock.classList.remove('hidden');
