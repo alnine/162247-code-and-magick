@@ -54,7 +54,7 @@ function renderWizards(list) {
     var similarWizard = getWizardLayout(list[i]);
     fragment.appendChild(similarWizard);
   }
-  wizardsSimilarList.appendChild(fragment);
+  return fragment;
 }
 
 var userSetup = document.querySelector('.setup');
@@ -64,7 +64,6 @@ var wizards = getWizards(4);
 var setupSimilarBlock = document.querySelector('.setup-similar');
 var wizardsSimilarList = document.querySelector('.setup-similar-list');
 
-
-renderWizards(wizards);
+wizardsSimilarList.appendChild(renderWizards(wizards));
 
 setupSimilarBlock.classList.remove('hidden');
