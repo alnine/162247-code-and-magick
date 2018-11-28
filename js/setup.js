@@ -58,12 +58,19 @@ function renderWizards(list) {
 }
 
 var userSetup = document.querySelector('.setup');
-userSetup.classList.remove('hidden');
-
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = userSetup.querySelector('.setup-close');
 var wizards = getWizards(4);
 var setupSimilarBlock = document.querySelector('.setup-similar');
 var wizardsSimilarList = document.querySelector('.setup-similar-list');
 
 wizardsSimilarList.appendChild(renderWizards(wizards));
-
 setupSimilarBlock.classList.remove('hidden');
+
+setupOpen.addEventListener('click', function () {
+  userSetup.classList.remove('hidden');
+});
+
+setupClose.addEventListener('click', function () {
+  userSetup.classList.add('hidden');
+});
