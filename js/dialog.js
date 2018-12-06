@@ -9,8 +9,8 @@ dialogHandler.addEventListener('mousedown', function (downEvt) {
   var dragged = false;
 
   var startCoords = {
-    x: downEvt.clientX,
-    y: downEvt.clientY
+    x: downEvt.pageX,
+    y: downEvt.pageY
   };
 
   function onHandlerMouseMove(moveEvt) {
@@ -19,16 +19,16 @@ dialogHandler.addEventListener('mousedown', function (downEvt) {
     dragged = true;
 
     var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+      x: startCoords.x - moveEvt.pageX,
+      y: startCoords.y - moveEvt.pageY
     };
 
     dialogElement.style.left = (dialogElement.offsetLeft - shift.x) + 'px';
     dialogElement.style.top = (dialogElement.offsetTop - shift.y) + 'px';
 
     startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
+      x: moveEvt.pageX,
+      y: moveEvt.pageY
     };
   }
 
