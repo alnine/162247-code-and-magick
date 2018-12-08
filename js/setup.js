@@ -99,6 +99,7 @@ function openSetup() {
   wizardCoat.addEventListener('click', wizardCoatClickHandler);
   wizardEyes.addEventListener('click', wizardEyesClickHandler);
   wizardFireBall.addEventListener('click', fireBallClickHandler);
+  userSetup.style.cssText = '';
 }
 
 function closeSetup() {
@@ -109,6 +110,7 @@ function closeSetup() {
   wizardCoat.removeEventListener('click', wizardCoatClickHandler);
   wizardEyes.removeEventListener('click', wizardEyesClickHandler);
   wizardFireBall.removeEventListener('click', fireBallClickHandler);
+  userSetup.style.cssText = '';
 }
 
 function wizardCoatClickHandler() {
