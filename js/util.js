@@ -2,6 +2,9 @@
 
 (function () {
 
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+
   function getMaxElement(arr) {
     var maxElement = arr[0];
     for (var i = 1; i < arr.length; i++) {
@@ -20,10 +23,24 @@
     return arr[getRandomIntegerFromInterval(0, arr.length - 1)];
   }
 
+  function isEscEvent(evt, action) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      action();
+    }
+  }
+
+  function isEnterEvent(evt, action) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      action();
+    }
+  }
+
   window.util = {
     getMaxElement: getMaxElement,
     getRandomIntegerFromInterval: getRandomIntegerFromInterval,
-    getRandomElementFromArray: getRandomElementFromArray
+    getRandomElementFromArray: getRandomElementFromArray,
+    isEscEvent: isEscEvent,
+    isEnterEvent: isEnterEvent
   };
 
 })();
