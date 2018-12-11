@@ -23,14 +23,14 @@
     return arr[getRandomIntegerFromInterval(0, arr.length - 1)];
   }
 
-  function isEscEvent(evt, action) {
-    if (evt.keyCode === ESC_KEYCODE) {
+  function isEscEvent(keyCode, action) {
+    if (keyCode === ESC_KEYCODE) {
       action();
     }
   }
 
-  function isEnterEvent(evt, action) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+  function isEnterEvent(keyCode, action) {
+    if (keyCode === ENTER_KEYCODE) {
       action();
     }
   }

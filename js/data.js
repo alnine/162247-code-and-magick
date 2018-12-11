@@ -13,14 +13,27 @@
     'rgb(0, 0, 0)'
   ];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-  var FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
-  window.dataWizards = {
-    wizardNames: WIZARD_NAMES,
-    wizardSurnames: WIZARD_SURNAMES,
-    coatColors: COAT_COLORS,
-    eyesColors: EYES_COLORS,
-    fireballColors: FIREBALL_COLOR
+  function createWizard() {
+    var data = {
+      name: window.util.getRandomElementFromArray(WIZARD_NAMES) + ' ' +
+            window.util.getRandomElementFromArray(WIZARD_SURNAMES),
+      coatColor: window.util.getRandomElementFromArray(COAT_COLORS),
+      eyesColor: window.util.getRandomElementFromArray(EYES_COLORS)
+    };
+    return data;
+  }
+
+  function getWizards(count) {
+    var wizards = [];
+    for (var i = 0; i < count; i++) {
+      wizards.push(createWizard());
+    }
+    return wizards;
+  }
+
+  window.data = {
+    getWizards: getWizards
   };
 
 })();
