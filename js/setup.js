@@ -19,6 +19,7 @@
   var setupHandle = setup.querySelector('.upload');
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = setup.querySelector('.setup-close');
+  var setupForm = setup.querySelector('.setup-wizard-form');
 
   var dragged = false;
   var startCoords = {};
@@ -128,6 +129,20 @@
     document.addEventListener('mousemove', onHandleMouseMove);
     document.addEventListener('mouseup', onHandleMouseUp);
   }
+
+  function onSubmitSuccess(message) {
+    console.log(message);
+    closeSetup();
+  }
+
+  function onError(message) {
+    console.log(message);
+  }
+
+  setupForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(setupForm), onSubmitSuccess, onError);
+    evt.preventDefault();
+  });
 
   setupOpen.addEventListener('click', function () {
     openSetup();
