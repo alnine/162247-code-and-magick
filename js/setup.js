@@ -69,8 +69,7 @@
     setupSimilarSection.classList.remove('hidden');
   }
 
-  function errorHandler(message) {;
-    console.dir(errorDialog);
+  function errorHandler(message) {
     errorDialog.textContent = message;
     errorDialog.classList.remove('hidden');
   }
