@@ -2,7 +2,6 @@
 
 (function () {
 
-  var WIZARDS_COUNT = 4;
   var PLAYER_COAT_COLORS = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -13,13 +12,15 @@
   ];
   var PLAYER_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var PLAYER_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-  var similarWizards = window.data.getWizards(WIZARDS_COUNT);
+
+  var errorDialog = document.querySelector('.error-message');
 
   var setup = document.querySelector('.setup');
   var setupHandle = setup.querySelector('.upload');
   var setupOpen = document.querySelector('.setup-open');
   var setupClose = setup.querySelector('.setup-close');
   var setupForm = setup.querySelector('.setup-wizard-form');
+  var setupSimilarSection = setup.querySelector('.setup-similar');
 
   var dragged = false;
   var startCoords = {};
@@ -63,9 +64,26 @@
     }
   }
 
+  function successHandler(data) {
+    window.renderWizards(data);
+    setupSimilarSection.classList.remove('hidden');
+  }
+
+  function errorHandler(message) {;
+    console.dir(errorDialog);
+    errorDialog.textContent = message;
+    errorDialog.classList.remove('hidden');
+  }
+
+  function formSubmitHandler(evt) {
+    window.backend.save(new FormData(setupForm), closeSetup, errorHandler);
+    evt.preventDefault();
+  }
+
   function openSetup() {
     setup.classList.remove('hidden');
     document.addEventListener('keydown', setupEscHandler);
+    setupForm.addEventListener('submit', formSubmitHandler);
     setupUserName.addEventListener('focus', inputFocusHandler);
     setupUserName.addEventListener('blur', inputFocusHandler);
     wizardCoat.addEventListener('click', wizardCoatClickHandler);
@@ -77,6 +95,7 @@
   function closeSetup() {
     setup.classList.add('hidden');
     document.removeEventListener('keydown', setupEscHandler);
+    setupForm.removeEventListener('submit', formSubmitHandler);
     setupUserName.removeEventListener('focus', inputFocusHandler);
     setupUserName.removeEventListener('blur', inputFocusHandler);
     wizardCoat.removeEventListener('click', wizardCoatClickHandler);
@@ -130,20 +149,6 @@
     document.addEventListener('mouseup', onHandleMouseUp);
   }
 
-  function onSubmitSuccess(message) {
-    console.log(message);
-    closeSetup();
-  }
-
-  function onError(message) {
-    console.log(message);
-  }
-
-  setupForm.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(setupForm), onSubmitSuccess, onError);
-    evt.preventDefault();
-  });
-
   setupOpen.addEventListener('click', function () {
     openSetup();
   });
@@ -162,8 +167,6 @@
     window.util.isEnterEvent(evt.keyCode, closeSetup);
   });
 
-  window.setup = {
-    similarWizards: similarWizards
-  };
+  window.backend.load(successHandler, errorHandler);
 
 })();
