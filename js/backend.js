@@ -44,6 +44,16 @@
       }
     });
 
+    xhr.addEventListener('error', function () {
+      onError('Ошибка соединения');
+    });
+
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не выполнился за ' + xhr.timeout / 1000 + 'c');
+    });
+
+    xhr.timeout = 2000;
+
     xhr.open('POST', URL_SAVE);
     xhr.send(FormData);
   }
