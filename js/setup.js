@@ -2,17 +2,6 @@
 
 (function () {
 
-  var PLAYER_COAT_COLORS = [
-    'rgb(101, 137, 164)',
-    'rgb(241, 43, 107)',
-    'rgb(146, 100, 161)',
-    'rgb(56, 159, 117)',
-    'rgb(215, 210, 55)',
-    'rgb(0, 0, 0)'
-  ];
-  var PLAYER_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-  var PLAYER_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
   var errorDialog = document.querySelector('.error-message');
 
   var setup = document.querySelector('.setup');
@@ -32,25 +21,10 @@
   var wizardEyes = setupPlayer.querySelector('.setup-wizard .wizard-eyes');
   var inputEyes = setupPlayer.querySelector('input[name="eyes-color"]');
   var wizardFireBall = setupPlayer.querySelector('.setup-fireball-wrap');
-  var inputFireBall = wizardFireBall.querySelector('input');
 
-  function wizardCoatClickHandler() {
-    var color = window.util.getRandomElementFromArray(PLAYER_COAT_COLORS);
-    wizardCoat.setAttribute('style', 'fill: ' + color);
-    inputCoat.value = color;
-  }
-
-  function wizardEyesClickHandler() {
-    var color = window.util.getRandomElementFromArray(PLAYER_EYES_COLORS);
-    wizardEyes.style.fill = color;
-    inputEyes.value = color;
-  }
-
-  function fireBallClickHandler() {
-    var color = window.util.getRandomElementFromArray(PLAYER_FIREBALL_COLOR);
-    wizardFireBall.style.backgroundColor = color;
-    inputFireBall.value = color;
-  }
+  var dataSimilar = [];
+  var coatColor = inputCoat.value;
+  var eyesColor = inputEyes.value;
 
   function setupEscHandler(evt) {
     window.util.isEscEvent(evt.keyCode, closeSetup);
@@ -64,8 +38,42 @@
     }
   }
 
+  function getRank(wizard) {
+    var rank = 0;
+
+    if (wizard.colorCoat === coatColor) {
+      rank += 2;
+    }
+
+    if (wizard.colorEyes === eyesColor) {
+      rank += 1;
+    }
+
+    return rank;
+  }
+
+  function updateSimilars() {
+    window.renderWizards(dataSimilar
+                          .slice()
+                          .sort(function (left, right) {
+                            return getRank(right) - getRank(left);
+                          })
+    );
+  }
+
+  window.playerWizard.coatChangeHandler = window.util.debounce(function (color) {
+    coatColor = color;
+    updateSimilars();
+  });
+
+  window.playerWizard.eyesChangeHandler = window.util.debounce(function (color) {
+    eyesColor = color;
+    updateSimilars();
+  });
+
   function successHandler(data) {
-    window.renderWizards(data);
+    dataSimilar = data;
+    updateSimilars();
     setupSimilarSection.classList.remove('hidden');
   }
 
@@ -81,13 +89,14 @@
 
   function openSetup() {
     setup.classList.remove('hidden');
+    window.backend.load(successHandler, errorHandler);
     document.addEventListener('keydown', setupEscHandler);
     setupForm.addEventListener('submit', formSubmitHandler);
     setupUserName.addEventListener('focus', inputFocusHandler);
     setupUserName.addEventListener('blur', inputFocusHandler);
-    wizardCoat.addEventListener('click', wizardCoatClickHandler);
-    wizardEyes.addEventListener('click', wizardEyesClickHandler);
-    wizardFireBall.addEventListener('click', fireBallClickHandler);
+    wizardCoat.addEventListener('click', window.playerWizard.wizardCoatClickHandler);
+    wizardEyes.addEventListener('click', window.playerWizard.wizardEyesClickHandler);
+    wizardFireBall.addEventListener('click', window.playerWizard.fireBallClickHandler);
     setup.style.cssText = '';
   }
 
@@ -97,9 +106,9 @@
     setupForm.removeEventListener('submit', formSubmitHandler);
     setupUserName.removeEventListener('focus', inputFocusHandler);
     setupUserName.removeEventListener('blur', inputFocusHandler);
-    wizardCoat.removeEventListener('click', wizardCoatClickHandler);
-    wizardEyes.removeEventListener('click', wizardEyesClickHandler);
-    wizardFireBall.removeEventListener('click', fireBallClickHandler);
+    wizardCoat.removeEventListener('click', window.playerWizard.wizardCoatClickHandler);
+    wizardEyes.removeEventListener('click', window.playerWizard.wizardEyesClickHandler);
+    wizardFireBall.removeEventListener('click', window.playerWizard.fireBallClickHandler);
     setup.style.cssText = '';
   }
 
@@ -165,7 +174,5 @@
   setupClose.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt.keyCode, closeSetup);
   });
-
-  window.backend.load(successHandler, errorHandler);
 
 })();
