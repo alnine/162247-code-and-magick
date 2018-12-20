@@ -4,6 +4,7 @@
 
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+  var DEBOUNCE_INTERVAL = 500;
 
   function getMaxElement(arr) {
     var maxElement = arr[0];
@@ -35,12 +36,27 @@
     }
   }
 
+  function debounce(callback) {
+    var lastTimeout = null;
+
+    return function () {
+      var params = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        callback.apply(null, params);
+      }, DEBOUNCE_INTERVAL);
+    };
+  }
+
   window.util = {
     getMaxElement: getMaxElement,
     getRandomIntegerFromInterval: getRandomIntegerFromInterval,
     getRandomElementFromArray: getRandomElementFromArray,
     isEscEvent: isEscEvent,
-    isEnterEvent: isEnterEvent
+    isEnterEvent: isEnterEvent,
+    debounce: debounce
   };
 
 })();

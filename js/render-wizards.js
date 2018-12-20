@@ -19,6 +19,7 @@
 
   function renderWizards(wizards) {
     var fragment = document.createDocumentFragment();
+    setupSimilarList.innerHTML = '';
     for (var i = 0; i < WIZARDS_COUNT; i++) {
       var similarWizard = getWizardLayout(wizards[i]);
       fragment.appendChild(similarWizard);
